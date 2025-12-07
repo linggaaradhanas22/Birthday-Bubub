@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love</title>
+    
+    <!-- Tailwind CSS (No installation needed) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-handwriting { font-family: 'Caveat', cursive; }
+        
+        /* Animations */
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .animate-fall {
+            animation: fall linear forwards; 
+        }
+        
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1) rotate(2deg); opacity: 0.8; }
+        }
+        .flame {
+            animation: flicker 0.1s infinite alternate;
+            transform-origin: center bottom;
+        }
+
+        .fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+    </style>
+</head>
+<!-- 
+    BACKGROUND SETTINGS:
+    The background image is set using an inline style.
+    Ensure "Colorful Cute Cats Illustration Desktop Wallpaper.png" is in the same folder as this HTML file.
+-->
+<body class="min-h-screen text-gray-800 relative overflow-x-hidden selection:bg-pink-200 flex flex-col justify-center" style="background-image: url('./Colorful Cute Cats Illustration Desktop Wallpaper.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <!-- Background Decorations -->
+    <div class="fixed top-10 left-10 rotate-12 opacity-20 pointer-events-none text-pink-400">
+        <i data-lucide="cat" width="64" height="64"></i>
+    </div>
+    <div class="fixed bottom-20 right-10 -rotate-12 opacity-20 pointer-events-none text-pink-400">
+        <i data-lucide="cat" width="64" height="64"></i>
+    </div>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container" class="fixed inset-0 pointer-events-none z-50 overflow-hidden"></div>
+
+    <main class="w-full max-w-md md:max-w-5xl mx-auto min-h-screen md:min-h-[80vh] md:h-auto md:my-8 shadow-2xl bg-white/90 backdrop-blur-sm relative border-x border-pink-100 md:rounded-3xl flex flex-col overflow-hidden">
+        
+        <!-- Progress Bar (Updated to 5 steps) -->
+        <div class="h-1 bg-pink-100 w-full flex shrink-0">
+            <div id="prog-1" class="h-full flex-1 bg-pink-400 transition-all duration-500"></div>
+            <div id="prog-2" class="h-full flex-1 bg-transparent transition-all duration-500"></div>
+            <div id="prog-3" class="h-full flex-1 bg-transparent transition-all duration-500"></div>
+            <div id="prog-4" class="h-full flex-1 bg-transparent transition-all duration-500"></div>
+            <div id="prog-5" class="h-full flex-1 bg-transparent transition-all duration-500"></div>
+        </div>
+
+        <!-- Sections Container -->
+        <div class="p-6 md:p-12 flex-grow flex flex-col relative justify-center">
+
+            <!-- SECTION 1: HERO -->
+            <div id="section-1" class="section fade-in flex flex-col md:flex-row items-center justify-center min-h-[70vh] text-center md:text-left space-y-8 md:space-y-0 md:gap-12">
+                
+                <div class="space-y-4 md:flex-1 flex flex-col items-center md:items-start">
+                    <div class="flex justify-center md:justify-start mb-4">
+                        <div class="animate-pulse text-pink-500">
+                            <i data-lucide="heart" width="48" height="48" fill="currentColor"></i>
+                        </div>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-pink-600 tracking-tight leading-tight">
+                        Happy Birthday<br />Bububb Cantikkk Maniss Gemayy Acuuww 😘🎂
+                    </h1>
+                    <p class="text-gray-500 italic text-lg">Welcome to your special purr-prise...</p>
+                    
+                    <button onclick="goToSection(2)" class="mt-8 group relative px-8 py-4 bg-pink-500 hover:bg-pink-600 text-white rounded-full font-bold shadow-lg shadow-pink-200 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+                        Open Your Gift <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+                <!-- Carousel -->
+                <div class="md:flex-1 w-full flex justify-center">
+                    <div class="relative w-full aspect-[4/5] max-w-xs rounded-3xl overflow-hidden shadow-xl border-4 border-pink-200 group">
+                        
+                        <!-- SLIDER TRACK: This div holds all images side-by-side -->
+                        <div id="slider-track" class="flex h-full w-full transition-transform duration-500 ease-out">
+                            <!-- Images will be injected here by JavaScript -->
+                        </div>
+                        
+                        <!-- Controls -->
+                        <button onclick="changeSlide(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full hover:bg-white text-pink-600 transition-colors z-10">
+                            <i data-lucide="chevron-left" width="20"></i>
+                        </button>
+                        <button onclick="changeSlide(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full hover:bg-white text-pink-600 transition-colors z-10">
+                            <i data-lucide="chevron-right" width="20"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: CAKE -->
+            <div id="section-2" class="section hidden flex-col items-center justify-center min-h-[70vh] w-full">
+                
+                <!-- Locked State -->
+                <div id="cake-locked" class="text-center space-y-6 w-full max-w-lg fade-in">
+                    <div class="bg-pink-100 p-6 rounded-full inline-block">
+                        <i data-lucide="calendar" class="text-pink-500" width="48" height="48"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Inii beneran kamuww kann?</h2>
+                    <p class="text-gray-600">Lahir tanggal berapaa hayooww ❓</p>
+                    <div class="flex flex-col gap-4 w-full max-w-xs mx-auto">
+                        <input type="date" id="bday-input" class="w-full p-3 rounded-xl border-2 border-pink-200 focus:border-pink-500 outline-none text-center bg-white">
+                        <button onclick="checkBirthday()" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold transition-transform active:scale-95">Lanjutt 👉👉</button>
+                    </div>
+                </div>
+
+                <!-- Unlocked State -->
+                <div id="cake-unlocked" class="hidden flex-col items-center w-full space-y-12 fade-in py-10">
+                    <h2 id="wish-title" class="text-3xl md:text-5xl font-bold text-pink-600 text-center relative z-20">Make a Wish dann tiupp lilinnyaa bubuubb!</h2>
+
+                    <!-- CSS Cake -->
+                    <div class="relative flex flex-col items-center justify-center mt-8 mb-4">
+                        
+                        <!-- Flame -->
+                        <div id="flame" class="absolute -top-16 z-20 w-4 h-12 bg-yellow-400 rounded-full shadow-[0_0_20px_#ffeb3b] flame">
+                            <div class="absolute top-4 left-1/2 -translate-x-1/2 w-2 h-4 bg-orange-500 rounded-full opacity-70"></div>
+                        </div>
+
+                        <!-- Candle -->
+                        <div class="absolute -top-6 z-10 w-4 h-16 bg-gradient-to-b from-blue-300 to-blue-400 rounded-t-sm shadow-sm"></div>
+
+                        <!-- Top Layer (Oval) -->
+                        <div class="w-72 h-32 bg-orange-50 rounded-[50%] relative z-0 border-b border-orange-100 shadow-sm flex items-end justify-center overflow-hidden">
+                             <div class="absolute w-full h-full opacity-30 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                        </div>
+
+                        <!-- Side Layer (Rect) -->
+                        <div class="w-72 h-24 bg-orange-100 -mt-16 rounded-b-3xl relative shadow-xl flex items-center justify-center border-b-4 border-orange-200"></div>
+                        
+                        <!-- Plate -->
+                        <div class="w-96 h-6 bg-gray-200 rounded-[50%] -mt-3 shadow-md z-[-1]"></div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="space-y-4 w-full max-w-xs text-center relative z-20">
+                        <div id="blow-controls">
+                            <button id="mic-btn" onclick="startListening()" class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold shadow-md flex items-center justify-center gap-2">
+                                <i data-lucide="mic" width="20"></i> Enable Mic to Blow
+                            </button>
+                            <p id="listening-msg" class="hidden text-pink-500 font-bold animate-pulse mt-2">Listening... Blow at the screen!</p>
+                            <button onclick="blowOutCandles()" class="text-sm text-gray-400 underline hover:text-pink-500 mt-4 block mx-auto">(Or click here if mic fails)</button>
+                        </div>
+
+                        <button id="next-btn-2" onclick="goToSection(3)" class="hidden w-full py-4 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-bold shadow-lg animate-bounce justify-center">
+                            See Our Memories So Far <i data-lucide="arrow-right" class="inline ml-2" width="20"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: MEMORIES -->
+            <div id="section-3" class="section hidden space-y-8 fade-in pb-20 justify-center flex-col min-h-[70vh]">
+                <div class="text-center space-y-2">
+                    <h2 class="text-2xl font-bold text-pink-600 flex items-center justify-center gap-2">
+                        <i data-lucide="clock" width="24"></i> Our Time Together
+                    </h2>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 inline-block">
+                        <p class="text-gray-600">Syudahh isenginn cantikknya acuuww selamaa:</p>
+                        <p class="text-xl md:text-3xl font-black text-pink-500 mt-1">
+                            <span id="days-count">0</span> Days 
+                            <span class="text-lg text-gray-400 font-normal">
+                                <span id="hours-count">0</span> Hr 
+                                <span id="minutes-count">0</span> Min 
+                                <span id="seconds-count">0</span> Sec
+                            </span>
+                        </p>
+                        <p class="text-xs text-gray-400 mt-1">Since September 17th, 2023 and counting yuhuuww!!</p>
+                    </div>
+                </div>
+
+                <div class="space-y-2 w-full max-w-4xl mx-auto">
+                    <h3 class="text-lg font-bold text-gray-700 px-2 flex items-center gap-2">
+                        <i data-lucide="camera" class="text-pink-400" width="20"></i> Highlights
+                    </h3>
+                    
+                    <!-- DYNAMIC MEMORIES GRID -->
+                    <div id="memories-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3 px-2">
+                        <!-- Photos will be injected here by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="flex justify-center pt-4">
+                    <button onclick="toggleLetter(true)" class="group bg-white border-2 border-pink-200 hover:border-pink-400 text-pink-600 px-6 py-3 rounded-xl font-bold shadow-sm transition-all hover:-translate-y-1 flex items-center gap-2">
+                        <i data-lucide="mail" class="group-hover:animate-bounce"></i> Jangann lupaa dibacaa bubuubb
+                    </button>
+                </div>
+
+                <div class="flex justify-center z-10 px-6 pt-4">
+                    <button onclick="goToSection(4)" class="w-full max-w-md bg-pink-500 text-white py-3 rounded-full shadow-lg font-bold hover:bg-pink-600">
+                        Eitss satu lagi jangan lupa...
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 4: DATE SCHEDULER -->
+            <div id="section-4" class="section hidden flex-col md:flex-row items-center justify-center min-h-[70vh] space-y-8 md:space-y-0 md:gap-12 fade-in text-center">
+                
+                <div class="space-y-4 md:text-left max-w-xs">
+                    <div class="inline-block p-4 bg-pink-100 rounded-full text-pink-500">
+                        <i data-lucide="gift" width="48" height="48"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Let's Celebrate!</h2>
+                    <p class="text-gray-500 text-lg">Pilihh tanggal jalannyaa bubuubskii!!</p>
+                </div>
+
+                <div class="w-full max-w-sm bg-white p-6 rounded-2xl shadow-xl border border-pink-100 space-y-4 text-left">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-600 mb-1">When?</label>
+                        <input type="date" id="date-date" class="w-full p-3 rounded-lg bg-pink-50 border border-pink-100 focus:border-pink-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-600 mb-1">What time?</label>
+                        <input type="time" id="date-time" class="w-full p-3 rounded-lg bg-pink-50 border border-pink-100 focus:border-pink-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-600 mb-1">Activity?</label>
+                        <select id="date-activity" class="w-full p-3 rounded-lg bg-pink-50 border border-pink-100 focus:border-pink-500 outline-none">
+                            <option value="Dinner">Dinn Dinn 😋</option>
+                            <option value="Movie">Moviee with popyummy 🍿</option>
+                            <option value="Nugas Date">Nugass datee 💻 </option>
+                            <option value="Surprise">Apaa hayoww?😵</option>
+                        </select>
+                    </div>
+                    <!-- CHANGED: Schedule button now calls scheduleDate() which opens link THEN goes to section 5 -->
+                    <button onclick="scheduleDate()" class="w-full py-4 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white rounded-xl font-bold shadow-lg transform transition-all active:scale-95 flex items-center justify-center gap-2 mt-4">
+                        <i data-lucide="calendar" width="20"></i> Schedule Date
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 5: SEE YOU SOON (New) -->
+            <div id="section-5" class="section hidden flex-col items-center justify-center min-h-[70vh] space-y-8 fade-in text-center">
+                <div class="space-y-4 max-w-lg">
+                    <div class="inline-block p-6 bg-pink-100 rounded-full text-pink-500 animate-bounce">
+                        <i data-lucide="party-popper" width="64" height="64"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-6xl font-extrabold text-pink-600 tracking-tight leading-tight">
+                        See You Soon Honeyyy Bunnyy 😚😻!!!
+                    </h2>
+                    <p class="text-gray-600 text-xl font-handwriting font-bold">
+                        Tidaaa cabaall melihaatt cicantikk acuuww hehehehehehe ✈😘<br>
+                        I love you more than yesterday, but less than tomorrow.
+                        Soalnyaa tiapp harii cintanyaa acuww monotonn naikkk 📈📈
+                    </p>
+
+                    <p class="text-gray-600 text-xl font-handwriting font-bold"> 
+                        p.s. Jangan lupaa becokk adaa mamamm speciall buatt kamuuww 😋😋
+                    </p>
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <!-- Cute cats illustration or footer decoration -->
+                    <i data-lucide="cat" class="text-pink-300" width="32"></i>
+                    <i data-lucide="heart" class="text-red-400 fill-red-400" width="32"></i>
+                    <i data-lucide="cat" class="text-pink-300" width="32"></i>
+                </div>
+            </div>
+
+             <div id="footer-msg" class="absolute bottom-4 left-0 right-0 text-center text-gray-400 text-sm hidden md:block">Made in Bli Lingga ❤️ untuk bubuubb canntikk acuuwww 😘😘😘</div>
+
+        </div>
+    </main>
+
+    <!-- LETTER MODAL -->
+    <div id="letter-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-lg w-full relative shadow-2xl fade-in">
+            <button onclick="toggleLetter(false)" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">✕</button>
+            <div class="space-y-4 text-center">
+                <i data-lucide="heart" class="mx-auto text-red-500 fill-red-500" width="40"></i>
+                <h3 class="text-2xl font-handwriting font-bold text-gray-800">Untuk calon istriku tercinta,</h3>
+                <div class="text-left text-gray-600 space-y-2 font-serif leading-relaxed max-h-80 overflow-y-auto">
+                    <p>Selamat ulang tahun yaa yanggkayuuwww 🌳🌳💕💕!</p>
+                    <p>Ini percobaan pertama acuuww bikinn webiste untukk ultah kamuww mengingatt kamuww tidaa adaa spacee lagii dii kamarr kalauu acuuww beyiin pajangann lagii.
+                        Jadii pajangannyaa digital sajaa yaawww hehehehehehe. Hopee youu likee it honeeyyy!!! </p>
+                    <p></p>
+                    <p>Many things have changed this year. But one thing for sure, our love will never change and will only keep growing with every microsecond passes.</p>
+                    <p>You are my favorite person, my best friend, and the cutest cat-mom ever, and obviously my everythingggg!!! I'm glad to be always by your side since September 17th</p>
+                    <p>Love youww honeeyy bunnyy sugaarr moneeyy to infinityy and beyonndd 🚀🚀💵💵🍯🍯🐇🐇🐇.</p>
+                </div>
+                <button onclick="toggleLetter(false)" class="mt-4 bg-pink-100 text-pink-600 px-4 py-2 rounded-lg font-bold hover:bg-pink-200">Close Letter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        // REPLACE THE LINKS BELOW WITH YOUR PHOTOS
+        const photos = [
+            "./gambar1.jpg",
+            "./gambar2.jpg",
+            "./gambar3.jpg",
+            "./gambar4.jpg",
+            "./gambar5.jpg",
+            "./gambar6.jpg",
+            "./gambar7.jpg",
+            "./gambar8.jpg"
+        ];
+
+        // MEMORIES DATA
+        // I pre-filled this for you. Modify these lines to change memory photos.
+        const memoryPhotos = [
+            "./memories1.jpg", "./memories2.jpg", "./memories3.jpg", "./memories4.jpg",
+            "./memories5.jpg", "./memories6.jpg", "./memories7.jpg", "./memories8.jpg",
+            "./memories9.jpg", "./memories10.jpg", "./memories11.jpg", "./memories12.jpg",
+            "./memories13.jpg", "./memories14.jpg", "./memories15.jpg", "./memories16.jpg"
+        ];
+        
+        // --- STATE & NAVIGATION ---
+        let currentSection = 1;
+        let slideIndex = 0;
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Initialize Slideshow (SLIDING LOGIC)
+        const track = document.getElementById('slider-track');
+        
+        // Dynamically add images to the track
+        photos.forEach((src) => {
+            const img = document.createElement('img');
+            img.src = src;
+            // Tailwind classes to make sure images sit side-by-side perfectly
+            img.className = 'w-full h-full object-cover flex-shrink-0';
+            track.appendChild(img);
+        });
+
+        // Initialize Memories Grid
+        const memoriesGrid = document.getElementById('memories-grid');
+        
+        memoryPhotos.forEach((src) => {
+            const wrapper = document.createElement('div');
+            // Standard styling for all grid items (squares)
+            wrapper.className = 'rounded-xl overflow-hidden shadow-md aspect-square';
+            
+            const img = document.createElement('img');
+            img.src = src;
+            img.className = 'w-full h-full object-cover hover:scale-110 transition-transform duration-500';
+            
+            wrapper.appendChild(img);
+            memoriesGrid.appendChild(wrapper);
+        });
+
+        function changeSlide(n) {
+            slideIndex = (slideIndex + n + photos.length) % photos.length;
+            // Move the track to the left by percentage (0%, -100%, -200%...)
+            track.style.transform = `translateX(-${slideIndex * 100}%)`;
+        }
+
+        // AUTO-CHANGE REMOVED
+        // The setInterval line has been deleted so pictures only change on click.
+
+        function goToSection(n) {
+            // Update Progress Bar (Updated loop to 5)
+            for(let i=1; i<=5; i++) {
+                const bar = document.getElementById(`prog-${i}`);
+                if(i <= n) bar.classList.replace('bg-transparent', 'bg-pink-400');
+                else bar.classList.replace('bg-pink-400', 'bg-transparent');
+                
+                // Toggle Sections
+                const sec = document.getElementById(`section-${i}`);
+                if(i === n) {
+                    sec.classList.remove('hidden');
+                    sec.classList.add('flex'); // restore flex layout
+                } else {
+                    sec.classList.add('hidden');
+                    sec.classList.remove('flex');
+                }
+            }
+            currentSection = n;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- CAKE SECTION ---
+        function checkBirthday() {
+            const input = document.getElementById('bday-input').value;
+            if(!input) return;
+            const date = new Date(input);
+            
+            // Month is 0-indexed (11 is Dec), Date is 8
+            if(date.getMonth() === 11 && date.getDate() === 8) {
+                document.getElementById('cake-locked').classList.add('hidden');
+                document.getElementById('cake-unlocked').classList.remove('hidden');
+                document.getElementById('cake-unlocked').classList.add('flex');
+            } else {
+                alert("Wrong date! Hint: December 8th 😉");
+            }
+        }
+
+        // Mic Logic
+        let audioContext, analyser, micStream;
+        async function startListening() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                micStream = audioContext.createMediaStreamSource(stream);
+                micStream.connect(analyser);
+                analyser.fftSize = 256;
+                
+                document.getElementById('mic-btn').classList.add('hidden');
+                document.getElementById('listening-msg').classList.remove('hidden');
+                detectBlow();
+            } catch(e) {
+                alert("Mic access denied. Please use the fallback click!");
+            }
+        }
+
+        function detectBlow() {
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(dataArray);
+            
+            let sum = 0;
+            for(let i=0; i<bufferLength; i++) sum += dataArray[i];
+            let average = sum / bufferLength;
+
+            if(average > 40) { // Threshold
+                blowOutCandles();
+            } else {
+                requestAnimationFrame(detectBlow);
+            }
+        }
+
+        function blowOutCandles() {
+            // Stop mic
+            if(audioContext) audioContext.close();
+            
+            // UI Updates
+            document.getElementById('flame').classList.add('hidden'); // Hide flame
+            document.getElementById('wish-title').innerText = "Yay! Happy Birthday!";
+            document.getElementById('blow-controls').classList.add('hidden');
+            document.getElementById('next-btn-2').classList.remove('hidden');
+            document.getElementById('next-btn-2').classList.add('inline-flex'); // flex for centering icon
+
+            createConfetti();
+        }
+
+        // --- CONFETTI ---
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#ffb7b2', '#ff9aa2', '#ffdac1', '#e2f0cb', '#b5ead7', '#c7ceea'];
+            
+            for(let i=0; i<50; i++) {
+                const conf = document.createElement('div');
+                conf.classList.add('absolute', 'w-3', 'h-3', 'rounded-full', 'animate-fall');
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = Math.random() * 100 + '%';
+                conf.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                conf.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(conf);
+            }
+        }
+
+        // --- MEMORIES TIMER ---
+        function updateTimer() {
+            const start = new Date("2023-09-17T00:00:00");
+            const now = new Date();
+            const diff = now - start;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            
+            document.getElementById('days-count').innerText = days;
+            document.getElementById('hours-count').innerText = hours;
+            document.getElementById('minutes-count').innerText = minutes;
+            document.getElementById('seconds-count').innerText = seconds;
+        }
+        setInterval(updateTimer, 1000); // run every second
+        updateTimer(); // run immediately
+
+        function toggleLetter(show) {
+            const modal = document.getElementById('letter-modal');
+            if(show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        // --- DATE SCHEDULER ---
+        function scheduleDate() {
+            const d = document.getElementById('date-date').value;
+            const t = document.getElementById('date-time').value;
+            const act = document.getElementById('date-activity').value;
+            
+            if(!d || !t) return alert("Please pick a time!");
+            
+            const start = new Date(`${d}T${t}`).toISOString().replace(/-|:|\.\d\d\d/g, "");
+            const end = new Date(new Date(`${d}T${t}`).getTime() + 7200000).toISOString().replace(/-|:|\.\d\d\d/g, "");
+            
+            const title = encodeURIComponent(`Date Night: ${act} ❤️`);
+            const details = encodeURIComponent(`Birthday Celebration!\nActivity: ${act}`);
+            
+            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}`);
+            
+            // ADDED: Go to final section
+            goToSection(5);
+        }
+    </script>
+</body>
+</html>
